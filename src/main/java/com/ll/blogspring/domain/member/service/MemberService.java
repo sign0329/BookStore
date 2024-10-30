@@ -39,6 +39,9 @@ public class MemberService {
     @Transactional
     public  void addCash(Member member, long price, CashLog.EvenType evenType, BaseEntity relEntity){
         CashLog cashLog = cashLogService.addCash(member, price, evenType, relEntity);
+        long newRestCash = member.getRestCash() + cashLog.getPrice();
+
+        member.setRestCash(newRestCash);
     }
 
 }
