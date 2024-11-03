@@ -5,6 +5,7 @@ import com.ll.blogspring.domain.Book.service.BookService;
 import com.ll.blogspring.domain.cash.cash.entity.CashLog;
 import com.ll.blogspring.domain.product.cart.service.CartService;
 import com.ll.blogspring.domain.member.service.MemberService;
+import com.ll.blogspring.domain.product.order.service.OrderService;
 import com.ll.blogspring.domain.product.product.entity.Product;
 import com.ll.blogspring.domain.product.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class NotProd {
     private final BookService bookService;
     private final ProductService productService;
     private final CartService cartItemService;
+    private final OrderService orderService;
 
     @Bean
     ApplicationRunner initNotProd(){
@@ -67,5 +69,7 @@ public class NotProd {
         memberService.addCash(memberUser1, 100_000, CashLog.EvenType.충전__무통장입금, memberUser1);
 
         System.out.println("memberUser1.restCahsh : " + memberUser1.getRestCash());
+
+        orderService.createFromCart(memberUser1);
     }
 }

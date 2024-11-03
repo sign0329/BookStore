@@ -24,7 +24,7 @@ import lombok.ToString;
 
 public class CartItem extends BaseEntity {
     @ManyToOne
-    private Member member;
-    @OneToMany
+    private Member buyer;
+    @OneToOne
     private Product product;
 }
