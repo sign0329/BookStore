@@ -5,6 +5,7 @@ import com.ll.blogspring.domain.Book.service.BookService;
 import com.ll.blogspring.domain.cash.cash.entity.CashLog;
 import com.ll.blogspring.domain.product.cart.service.CartService;
 import com.ll.blogspring.domain.member.service.MemberService;
+import com.ll.blogspring.domain.product.order.entity.PurchaseOrder;
 import com.ll.blogspring.domain.product.order.service.OrderService;
 import com.ll.blogspring.domain.product.product.entity.Product;
 import com.ll.blogspring.domain.product.product.service.ProductService;
@@ -14,6 +15,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import com.ll.blogspring.domain.member.member.entity.Member;
 
@@ -66,10 +68,16 @@ public class NotProd {
 
         System.out.println("memberUser1.restCash : " + memberUser1.getRestCash());
 
-        memberService.addCash(memberUser1, 100_000, CashLog.EvenType.충전__무통장입금, memberUser1);
+        memberService.addCash(memberUser1, 150_000, CashLog.EvenType.충전__무통장입금, memberUser1);
 
         System.out.println("memberUser1.restCahsh : " + memberUser1.getRestCash());
 
         orderService.createFromCart(memberUser1);
+
+        PurchaseOrder purchaseOrder1 = orderService.createFromCart(memberUser1);
+
+        long orderPayPrice = purchaseOrder1.calcPayPrice();
+
+        orderService.payBycashOnly(purchaseOrder1);
     }
 }
