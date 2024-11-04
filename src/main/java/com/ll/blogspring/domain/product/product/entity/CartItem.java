@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.mapping.ToOne;
 
 @Entity
 @Builder
@@ -25,6 +26,6 @@ import lombok.ToString;
 public class CartItem extends BaseEntity {
     @ManyToOne
     private Member buyer;
-    @OneToOne
+    @ManyToOne
     private Product product;
 }

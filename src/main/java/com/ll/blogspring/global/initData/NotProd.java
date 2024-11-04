@@ -32,6 +32,7 @@ public class NotProd {
     private final ProductService productService;
     private final CartService cartItemService;
     private final OrderService orderService;
+    private final CartService cartService;
 
     @Bean
     ApplicationRunner initNotProd(){
@@ -60,6 +61,12 @@ public class NotProd {
         Product product3 = productService.createProduct(book5);
         Product product4 = productService.createProduct(book6);
 
+        cartService.addItem(memberUser2, product1);
+        cartService.addItem(memberUser2, product2);
+        cartService.addItem(memberUser2, product3);
+        cartService.addItem(memberUser3, product2);
+        cartService.addItem(memberUser3, product3);
+        cartService.addItem(memberUser3, product3);
 
 
         cartItemService.addItem(memberUser1, product1);
@@ -78,6 +85,11 @@ public class NotProd {
 
         long orderPayPrice = purchaseOrder1.calcPayPrice();
 
-        orderService.payBycashOnly(purchaseOrder1);
+        orderService.payByCashOnly(purchaseOrder1);
+
+        memberService.addCash(memberUser3, 150_000, CashLog.EvenType.충전__무통장입금, memberUser3);
+        PurchaseOrder purchaseOrder2 = orderService.createFromCart(memberUser3);
+        orderService.payByCashOnly(purchaseOrder2);
+        orderService.refund(purchaseOrder2);
     }
 }

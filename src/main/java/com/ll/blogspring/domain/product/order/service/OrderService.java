@@ -39,7 +39,9 @@ public class OrderService {
 
         return purchaseOrder;
     }
-    public void payBycashOnly(PurchaseOrder purchaseOrder){
+
+    @Transactional
+    public void payByCashOnly(PurchaseOrder purchaseOrder){
         Member buyer = purchaseOrder.getBuyer();
         long restCash = buyer.getRestCash();
         long payPrice = purchaseOrder.calcPayPrice();
@@ -55,5 +57,14 @@ public class OrderService {
 
     private void payDone(PurchaseOrder purchaseOrder) {
         purchaseOrder.setPaymentDone();
+    }
+
+    public void refund(PurchaseOrder purchaseOrder){
+        long payPrice = purchaseOrder.calcPayPrice();
+
+        memberService.addCash(purchaseOrder.getBuyer(), payPrice, CashLog.EvenType.환불__예치금_주문결제, purchaseOrder);
+
+        purchaseOrder.setCancelDone();
+        purchaseOrder.setRefundDone();
     }
 }
